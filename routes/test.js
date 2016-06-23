@@ -1,7 +1,7 @@
 'use strict'
 
 module.exports = function(app, express) {
-    var testApi = express.Router()
+    var testApi = express.Router();
 
     testApi.get('/test', function(req, res) {
         res.json({
