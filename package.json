@@ -1,0 +1,20 @@
+{
+  "name": "node-fitbit-experiment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "node",
+    "fitbit"
+  ],
+  "author": "Tauren Kristich",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.14.0",
+    "fitbit-node": "^2.0.0",
+    "lodash": "^4.13.1"
+  }
+}
