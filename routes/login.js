@@ -13,16 +13,21 @@ module.exports = function(app, express, fitbitClient) {
 	    );
 	});
 
+
 	loginApi.get('/token', function (req, res) {
-	fitbitClient.getAccessToken(req.query.code, 'http://127.0.0.1:3000/fitbit/token').then(function (result) {
-        fitbitClient.get("/profile.json", result.access_token).then(function (results) {
-            res.send(results);
-        });
-    }).catch(function (error) {
-        res.send(error);
-    });
-    
-});
+	
+		fitbitClient.getAccessToken(req.query.code, 'http://127.0.0.1:3000/fitbit/token')
+			.then(function (result) {
+	        
+		        fitbitClient.get("/profile.json", result.access_token).then(function (results) {
+		            res.send(results);
+		        });
+
+		    }).catch(function (error) {
+		        res.send(error);
+		    });
+	    
+	});
 
     return loginApi;
 };

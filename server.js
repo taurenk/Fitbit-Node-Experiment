@@ -9,12 +9,8 @@ var fitbitClient = new FitbitApiClient(config.fitbitClientId, config.fitbitClien
 
 
 /** Routes **/
-var testApi = require('./routes/test')(app, express);
-app.use('/api', testApi);
-
-var loginApi = require('./routes/login')(app, express);
+var loginApi = require('./routes/login')(app, express, fitbitClient);
 app.use('/fitbit', loginApi);
-
 
 
 app.listen(config.port, function () {
