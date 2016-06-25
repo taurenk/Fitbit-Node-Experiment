@@ -1,6 +1,6 @@
-
-
 'use strict'
+
+var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 
 module.exports = function(app, express, fitbitClient) {
     
@@ -18,12 +18,22 @@ module.exports = function(app, express, fitbitClient) {
 	
 		fitbitClient.getAccessToken(req.query.code, 'http://127.0.0.1:3000/fitbit/token')
 			.then(function (result) {
-	        
-		        fitbitClient.get("/profile.json", result.access_token).then(function (results) {
-		            res.send(results);
-		        });
+		    	return fitbitClient.get('/profile.json', result.access_token);
+		    })
+		    .then(function (results) {
 
-		    }).catch(function (error) {
+		    	var token = jwt.sign('data', 'superSecret');
+		    	// TODO; Upsert user record in database.
+
+		    	//res.send(results);
+		    	res.json({
+		        	success: true,
+		        	message: 'Logged into Node-Fitbit-Experiment.',
+		        	token: token
+		        });
+		    })
+		    .catch(function (error) {
+		    	console.log('error:' + error);
 		        res.send(error);
 		    });
 	    
