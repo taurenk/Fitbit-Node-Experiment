@@ -8,7 +8,15 @@ var jwt    = require('jsonwebtoken');
 
 var app = express();
 var fitbitClient = new FitbitApiClient(config.fitbitClientId, config.fitbitClientSecret);
-
+var knex = require('knex')({
+  client: 'pg',
+  connection: {
+    host     : config.database.host,
+    user     : config.database.user,
+    password : config.database.password,
+    database : config.database.database
+  }
+});
 
 
 /** Routes **/
@@ -41,8 +49,9 @@ app.use(function(req, res, next) {
 });
 
 
-var testApi = require('./routes/test')(app, express);
+var testApi = require('./routes/test')(app, express, knex);
 app.use('/test', testApi);
+
 
 app.listen(config.port, function () {
 	console.log('Server started server on localhost: ' + config.port);
