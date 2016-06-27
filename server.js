@@ -41,15 +41,16 @@ app.use(function(req, res, next) {
 
       } else {
         // if there is no token, return an error
-        return res.status(403).send({ 
-            success: false, 
-            message: 'No token provided.' 
-        });
+        return res.status(403)
+                .send({ 
+                    success: false, 
+                    message: 'No token provided.' 
+                });
       }
 });
 
 
-var testApi = require('./routes/test')(app, express, knex);
+var testApi = require('./routes/test')(app, express, fitbitClient, knex);
 app.use('/test', testApi);
 
 

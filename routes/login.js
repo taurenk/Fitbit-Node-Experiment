@@ -37,13 +37,19 @@ module.exports = function(app, express, fitbitClient, knex) {
 		    						refresh_token: result.refresh_token
 		    					})
 		    					.then(function() {
-		    						return result.user_id;
+		    						var payload = {'fitbit_user_id': result.user_id};
+		    						var token = jwt.sign(payload, 'superSecret');
+							    	res.json({
+							        	success: true,
+							        	message: 'Logged into Node-Fitbit-Experiment.',
+							        	token: token
+							        });
 		    					})
 		    					.catch(function(error) {
 		    						 res.status(400).send('Error creating user');
 		    					});
 		    			} else if (rows.length == 1) {
-		    				console.log('Update USER');
+		    				console.log('Update USER ' + result.user_id);
 		    				knex('fitbit_user')
 								.where('fitbit_user_id', result.user_id)
 								.update({
@@ -51,7 +57,13 @@ module.exports = function(app, express, fitbitClient, knex) {
 									refresh_token: result.refresh_token
 								})
 								.then(function(response) {
-									return result.user_id;
+									var payload = {'fitbit_user_id': result.user_id};
+		    						var token = jwt.sign(payload, 'superSecret');
+							    	res.json({
+							        	success: true,
+							        	message: 'Logged into Node-Fitbit-Experiment.',
+							        	token: token
+							        });
 								})
 								.catch(function(error) {
 									res.status(400).send('Error updating user');
@@ -61,15 +73,7 @@ module.exports = function(app, express, fitbitClient, knex) {
 
 		    })
 
-		    .then(function (results) {
-
-		    	var token = jwt.sign(results, 'superSecret');
-		    	res.json({
-		        	success: true,
-		        	message: 'Logged into Node-Fitbit-Experiment.',
-		        	token: token
-		        });
-		    })
+		 
 		    .catch(function (error) {
 		    	console.log('error:' + error);
 		        res.send(error);
