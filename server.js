@@ -20,7 +20,7 @@ var knex = require('knex')({
 
 
 /** Routes **/
-var loginApi = require('./routes/login')(app, express, fitbitClient);
+var loginApi = require('./routes/login')(app, express, fitbitClient, knex);
 app.use('/fitbit', loginApi);
 
 
