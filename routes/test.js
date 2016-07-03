@@ -17,9 +17,24 @@ module.exports = function(app, express, fitbitClient, knex) {
             })
     });
 
+    testApi.get('/testFitbitProfile', function(req, res) {
+       
+        knex.select()
+            .from('fitbit_user')
+            .where('fitbit_user_id', req.decoded.fitbit_user_id)
+            .then(function(rows) {       
+               return fitbitClient.get('/profile.json', rows[0].access_token);
+            })
+            .then(function(result) {
+                res.send(result);
+            })
+            .catch(function(error) {
+                console.log('error: ' + error);
+            });
+    });
+
     testApi.get('/testRequest', function(req, res) {
-        
-        console.log(req.decoded);
+
         knex.select()
             .from('fitbit_user')
             .where('fitbit_user_id', req.decoded.fitbit_user_id)
